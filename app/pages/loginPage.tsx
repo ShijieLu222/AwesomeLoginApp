@@ -1,21 +1,28 @@
-import LoginButton from '@/components/ui/loginComponents/LoginButton';
-import LoginTextInput from '@/components/ui/loginComponents/LoginTextInput';
+import LoginButton from '@/components/loginComponents/LoginButton';
+import LoginTextInput from '@/components/loginComponents/LoginTextInput';
 import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
+import { LoginApi } from '../api/api';
 
 export default function LoginPage() {
   const [password, setpassword] = useState('');
   const [account, setAccount] = useState('');
-  
-  const handleLogin=()=>{
+
+  const handleLogin = async () => {
     if (!account || !password) {
       Alert.alert('提示', '请输入账号和密码');
       return;
     }
+    try {
+      const result = await LoginApi({ account: account, password: password })
+    } catch (err: any) {
+      Alert.alert('登录失败', err?.response?.data?.message || err.message || '服务器错误');
+    }
+
     // 这里可以加上真正的登录请求
     Alert.alert('登录成功', `账号：${account}\n密码:${password}`);
   };
-   
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>登入系统</Text>
