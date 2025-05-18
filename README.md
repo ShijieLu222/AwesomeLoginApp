@@ -35,16 +35,36 @@ npm run reset-project
 
 This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+AwesomeLoginApp/
+│
+├── app/           # 入口目录，包含页面和路由相关代码（新版Expo推荐结构）
+│    ├── (tabs)/           # Tab页面相关文件夹
+│    ├── _layout.tsx       # 路由和页面的入口（新版Expo专用，像App.tsx）
+│    ├── +not-found.tsx    # 404页面
+│
+├── assets/        # 静态资源（图片、icon等）
+│
+├── components/    # 公共组件（可以多页面复用的小功能/控件）
+│    ├── Collapsible.tsx
+│    ├── ExternalLink.tsx
+│    ├── HapticText.tsx
+│    ├── HelloWave.tsx
+│    ├── ParallaxScrollView.tsx
+│    ├── ThemedText.tsx
+│    ├── ThemedView.tsx
+│
+├── constants/     # 常量、配色、主题设置等
+│    ├── Colors.ts
+│
+├── hooks/         # 自定义Hook
+│    ├── useColorScheme.ts
+│    ├── useColorScheme.web.ts
+│    ├── useThemeColor.ts
+│
+├── node_modules/  # 依赖库（自动生成）
+│
+├── package.json   # 项目依赖、脚本和基本信息
+├── app.json       # Expo 项目配置文件
+├── tsconfig.json  # TypeScript 配置
+├── README.md
+└── ...
