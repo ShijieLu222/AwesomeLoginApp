@@ -1,37 +1,46 @@
-import LoginButton from '@/components/loginComponents/LoginButton';
-import LoginTextInput from '@/components/loginComponents/LoginTextInput';
+// import { RootStackParamList } from '@/App';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { LoginThunk } from '../redux/userSlice';
+import { RootStackParamList } from '../../App';
+import LoginButton from '../src/components/loginComponents/LoginButton';
+import LoginTextInput from '../src/components/loginComponents/LoginTextInput';
 import { AppDispatch, RootState } from '../store';
+
 export default function LoginPage() {
   const [password, setpassword] = useState('');
   const [account, setAccount] = useState('');
   const dispatch = useDispatch<AppDispatch>();
+  const navigator = useNavigation<StackNavigationProp<RootStackParamList, 'LoginPage'>>();
   // Redux 拿到 loading、error、user 等状态
   const loading = useSelector((state: RootState) => state.user.loading);
   const error = useSelector((state: RootState) => state.user.error);
-  const handleLogin = async () => {
-    if (!account || !password) {
-      Alert.alert('提示', '请输入账号和密码');
-      return;
-    }
 
-    dispatch(LoginThunk({ account: account, password: password }))
-      .unwrap() // unwrap可直接拿到fulfilled值，也能捕捉rejected
-      .then(res => {
-        Alert.alert('登录成功', `欢迎：${res.user.name}`);
-      })
-      .catch(errMsg => {
-        Alert.alert('登录失败', errMsg);
-      });
+
+  const handleLogin = async () => {
+    // if (!account || !password) {
+    //   Alert.alert('提示', '请输入账号和密码');
+    //   return;
+    // }
+
+    // dispatch(LoginThunk({ account: account, password: password }))
+    //   .unwrap() // unwrap可直接拿到fulfilled值，也能捕捉rejected
+    //   .then(res => {
+    //     Alert.alert('登录成功', `欢迎：${res.user.name}`);
+    //   })
+    //   .catch(errMsg => {
+    //     Alert.alert('登录失败', errMsg);
+    //   });
+
+    navigator.navigate('homePage');
 
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>登入系统</Text>
+      <Text style={styles.header}>Login System</Text>
 
       <LoginTextInput
         value={account} //对应输入框里面的值

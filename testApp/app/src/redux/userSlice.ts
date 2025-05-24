@@ -1,6 +1,9 @@
+
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { LoginApi, LoginParams, LoginResult } from '../api/api';
 import { User } from "../types/types";
+
+import { LoginApi, LoginParams, LoginResult } from '../../api/api';
+import { RootState } from '../../store';
 
 // Redux 中 user 状态的初始值
 interface UserState {
@@ -63,10 +66,8 @@ export const LoginThunk = createAsyncThunk<
 
 
 
-
-
-
-
+export const selectUserLoading = (state: RootState) => state.user.loading;
+export const selectUserError = (state: RootState) => state.user.error;
 
 // 导出 action
 export const { setUser } = userSlice.actions;

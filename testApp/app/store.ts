@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from '../app/redux/userSlice';
+import userReducer from './src/redux/userSlice';
 
 // 创建 Redux Store，把 userReducer 添加进来
 export const store = configureStore({
