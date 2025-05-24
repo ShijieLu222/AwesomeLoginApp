@@ -34,7 +34,7 @@ export default function LoginPage() {
     //     Alert.alert('登录失败', errMsg);
     //   });
 
-    navigator.navigate('homePage');
+    navigator.navigate('HomePage');
 
   };
 

@@ -9,7 +9,11 @@ import { store } from './app/store';
 // 声明路由参数类型
 export type RootStackParamList = {
   LoginPage: undefined;
-  homePage: undefined;
+  HomePage: undefined;
+  PublishPage: undefined;
+  MessagePage: undefined;
+  MyPage: undefined;
+  DiscoverPage: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -20,7 +24,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LoginPage">
         <Stack.Screen name="LoginPage" component={LoginPage} />
-        <Stack.Screen name="homePage" component={HomePage} />
+        <Stack.Screen name="HomePage" component={HomePage} />
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>
