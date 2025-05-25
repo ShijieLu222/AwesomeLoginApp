@@ -1,15 +1,24 @@
-import { StyleSheet, View } from "react-native";
-import { Icon, TabBar } from "@ant-design/react-native";
-import { Text } from "react-native";
-import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "../../../../App";
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, Platform } from 'react-native';
+import { Icon } from '@ant-design/react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../../App';
 
+type NavigationProp = StackNavigationProp<RootStackParamList>;
 
+type IconName = "home" | "like" | "plus" | "message" | "user";
+
+const TABS: { key: string; label: string }[] = [
+    { key: "homePage", label: "首页", },
+    { key: "discoverPage", label: "热门", },
+    { key: "publishPage", label: "发布", },
+    { key: "messagePage", label: "消息", },
+    { key: "myPage", label: "我的", }
+];
 
 export default function BottomTabBar() {
-    const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+    const navigation = useNavigation<NavigationProp>();
     const [selectedTab, setSelectedTab] = useState('homePage');
 
     const onChangeTab = (tabName: string) => {
@@ -18,58 +27,65 @@ export default function BottomTabBar() {
     };
 
     return (
-        <View style={styles.tabBar}>
-            <TabBar
-                unselectedTintColor="#949494"
-                tintColor="#33A3F4"
-                barTintColor="#f5f5f5"
-            >
-                <TabBar.Item
-                    title="首页"
-                    icon={<Icon name="home" />}
-                    selected={selectedTab === 'homePage'}
-                    onPress={() => onChangeTab('homePage')}
-                >
-                    {/* 这里可以留空，或者放内容 */}
-                </TabBar.Item>
-                <TabBar.Item
-                    title="热门"
-                    icon={<Icon name="like" />}
-                    selected={selectedTab === 'discoverPage'}
-                    onPress={() => onChangeTab('discoverPage')}
-                />
-                <TabBar.Item
-                    title="发布"
-                    icon={<Icon name="plus" />}
-                    selected={selectedTab === 'publishPage'}
-                    onPress={() => onChangeTab('publishPage')}
-                />
-                <TabBar.Item
-                    title="消息"
-                    icon={<Icon name="message" />}
-                    selected={selectedTab === 'messagePage'}
-                    onPress={() => onChangeTab('messagePage')}
-                />
-                <TabBar.Item
-                    title="我的"
-                    icon={<Icon name="user" />}
-                    selected={selectedTab === 'myPage'}
-                    onPress={() => onChangeTab('myPage')}
-                />
-            </TabBar>
+        <View style={styles.container}>
+            <View style={styles.tabBar}>
+                {TABS.map((tab) => {
+                    // 中间“发布”按钮单独样式
+                    if (tab.key === 'publishPage') {
+                        return (
+                            <TouchableOpacity
+                                key={tab.key}
+                                activeOpacity={0.85}
+                                style={styles.publishItem}
+                                onPress={() => onChangeTab(tab.key)}
+                            >
+                                <View style={styles.publishButton}> </View>
+
+                                {/* <Text style={[styles.tabText, { color: selectedTab === tab.key ? '#FF2442' : '#949494', marginTop: 2 }]}>
+                                    {tab.label}
+                                </Text> */}
+                            </TouchableOpacity>
+                        );
+                    }
+
+                    return (
+                        <TouchableOpacity
+                            key={tab.key}
+                            style={styles.tabItem}
+                            activeOpacity={0.7}
+                            onPress={() => onChangeTab(tab.key)}
+                        >
+                            <Text
+                                style={[
+                                    styles.tabText,
+                                    selectedTab === tab.key
+                                        ? styles.selectedTabText
+                                        : styles.unselectedTabText
+                                ]}
+                            >
+                                {tab.label}
+                            </Text>
+                        </TouchableOpacity>
+                    );
+                })}
+            </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        backgroundColor: '#fff',
+    },
     tabBar: {
-        height: 750, // 设置底部导航栏高度
-        flexDirection: 'row', // 横向排列
-        justifyContent: 'space-around', // 子项平均分布
-        alignItems: 'center', // 垂直居中
-        backgroundColor: '#fff', // 背景颜色
-        borderTopWidth: 1, // 添加顶部边框
-        borderColor: '#eee', // 边框颜色
+        flexDirection: 'row',
+        height: 740,
+        backgroundColor: '#fff',
+        borderTopWidth: 1,
+        borderColor: '#f0f0f0',
+        alignItems: 'flex-end',
+        justifyContent: 'space-around',
+        paddingBottom: Platform.OS === 'ios' ? 15 : 5, // 适配 iPhone 底部
     },
     tabItem: {
         flex: 1,
@@ -77,7 +93,33 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     tabText: {
-        fontSize: 12,
-        color: '#333',
-    }
-}) 
+        fontSize: 20,
+    },
+    selectedTabText: {
+        color: '#FF2442',
+        fontWeight: 'bold',
+    },
+    unselectedTabText: {
+        color: '#949494',
+    },
+    publishItem: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        top: 10, // 凸出底部
+    },
+    publishButton: {
+        width: 52,
+        height: 52,
+        borderRadius: 26,
+        backgroundColor: '#FF2442',
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: '#FF2442',
+        shadowOpacity: 0.28,
+        shadowRadius: 6,
+        shadowOffset: { width: 0, height: 2 },
+        elevation: 8,
+    },
+});
+
