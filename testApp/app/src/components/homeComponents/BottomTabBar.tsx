@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Platform } from 'react-native';
-import { Icon } from '@ant-design/react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../../App';
+import { AntDesign } from '@expo/vector-icons';
 
 type NavigationProp = StackNavigationProp<RootStackParamList>;
 
-type IconName = "home" | "like" | "plus" | "message" | "user";
+// type IconName = "home" | "like" | "plus" | "message" | "user";
 
 const TABS: { key: string; label: string }[] = [
-    { key: "homePage", label: "首页", },
-    { key: "discoverPage", label: "热门", },
-    { key: "publishPage", label: "发布", },
-    { key: "messagePage", label: "消息", },
-    { key: "myPage", label: "我的", }
+    { key: "HomePage", label: "首页", },
+    { key: "DiscoverPage", label: "热门", },
+    { key: "PublishPage", label: "", },
+    { key: "MessagePage", label: "消息", },
+    { key: "MyPage", label: "我的", }
 ];
 
 export default function BottomTabBar() {
     const navigation = useNavigation<NavigationProp>();
-    const [selectedTab, setSelectedTab] = useState('homePage');
+    const [selectedTab, setSelectedTab] = useState('HomePage');
 
     const onChangeTab = (tabName: string) => {
         setSelectedTab(tabName);
@@ -31,7 +31,7 @@ export default function BottomTabBar() {
             <View style={styles.tabBar}>
                 {TABS.map((tab) => {
                     // 中间“发布”按钮单独样式
-                    if (tab.key === 'publishPage') {
+                    if (tab.key === 'PublishPage') {
                         return (
                             <TouchableOpacity
                                 key={tab.key}
@@ -39,11 +39,10 @@ export default function BottomTabBar() {
                                 style={styles.publishItem}
                                 onPress={() => onChangeTab(tab.key)}
                             >
-                                <View style={styles.publishButton}> </View>
+                                <View style={styles.publishButton}>
+                                    <AntDesign name="pluscircle" size={32} color="#fff" />
+                                </View>
 
-                                {/* <Text style={[styles.tabText, { color: selectedTab === tab.key ? '#FF2442' : '#949494', marginTop: 2 }]}>
-                                    {tab.label}
-                                </Text> */}
                             </TouchableOpacity>
                         );
                     }
@@ -79,7 +78,7 @@ const styles = StyleSheet.create({
     },
     tabBar: {
         flexDirection: 'row',
-        height: 740,
+        height: 820,
         backgroundColor: '#fff',
         borderTopWidth: 1,
         borderColor: '#f0f0f0',

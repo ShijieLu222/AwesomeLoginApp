@@ -1,6 +1,5 @@
-import { View } from '@ant-design/react-native';
 import BottomTabBar from '../src/components/homeComponents/BottomTabBar';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 export default function HomePage() {
     return (
@@ -15,6 +14,6 @@ export default function HomePage() {
 const styles = StyleSheet.create({
     container: {
         flex: 1, 
-        backgroundColor: '#fff',
+        backgroundColor: '#fff', 
     },
 });
