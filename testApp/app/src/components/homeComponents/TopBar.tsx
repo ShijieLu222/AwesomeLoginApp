@@ -63,7 +63,7 @@ export default function TopBar({ selectedTab, onTabPress }: TopBarProps) {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
-        paddingTop: Platform.OS === 'ios' ? 44 : 0, // iOS 状态栏高度
+        paddingTop: Platform.OS === 'ios' ? 46 : 0, // iOS 状态栏高度
     },
     tabBar: {
         flexDirection: 'row',
