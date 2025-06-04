@@ -1,68 +1,76 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Platform } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions, useRoute } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../../App';
+import { MainTabsParamList, RootStackParamList } from '../../../../App';
 import { AntDesign } from '@expo/vector-icons';
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
-type NavigationProp = StackNavigationProp<RootStackParamList>;
+export default function BottomTabBar({ state, descriptors, navigation, insets }: BottomTabBarProps) {
+    const focusedRoute = state.routes[state.index];
+    const focusedRouteName = focusedRoute.name;
 
-// type IconName = "home" | "like" | "plus" | "message" | "user";
+    const onTabPress = (route: typeof state.routes[number], isSelected: boolean) => {
+        const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
+        });
 
-const TABS: { key: string; label: string }[] = [
-    { key: "HomePage", label: "首页", },
-    { key: "DiscoverPage", label: "热门", },
-    { key: "PublishPage", label: "", },
-    { key: "MessagePage", label: "消息", },
-    { key: "MyPage", label: "我的", }
-];
-
-export default function BottomTabBar() {
-    const navigation = useNavigation<NavigationProp>();
-    const [selectedTab, setSelectedTab] = useState('HomePage');
-
-    const onChangeTab = (tabName: string) => {
-        setSelectedTab(tabName);
-        navigation.navigate(tabName as keyof RootStackParamList);
+        if (!isSelected && !event.defaultPrevented) {
+            navigation.dispatch({
+                ...CommonActions.navigate(route.name, route.params),
+                target: state.key,
+            });
+        }
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { paddingBottom: insets.bottom }]}>
             <View style={styles.tabBar}>
-                {TABS.map((tab) => {
-                    // 中间“发布”按钮单独样式
-                    if (tab.key === 'PublishPage') {
+                {state.routes.map((route: typeof state.routes[number], index: number) => {
+                    const { options } = descriptors[route.key];
+                    const label =
+                        options.tabBarLabel !== undefined
+                            ? options.tabBarLabel
+                            : options.title !== undefined
+                            ? options.title
+                            : route.name;
+
+                    const isSelected = state.index === index;
+
+                    if (route.name === 'PublishPage') {
                         return (
                             <TouchableOpacity
-                                key={tab.key}
+                                key={route.key}
                                 activeOpacity={0.85}
                                 style={styles.publishItem}
-                                onPress={() => onChangeTab(tab.key)}
+                                onPress={() => onTabPress(route, isSelected)}
                             >
                                 <View style={styles.publishButton}>
                                     <AntDesign name="pluscircle" size={32} color="#fff" />
                                 </View>
-
                             </TouchableOpacity>
                         );
                     }
 
                     return (
                         <TouchableOpacity
-                            key={tab.key}
+                            key={route.key}
                             style={styles.tabItem}
                             activeOpacity={0.7}
-                            onPress={() => onChangeTab(tab.key)}
+                            onPress={() => onTabPress(route, isSelected)}
                         >
                             <Text
                                 style={[
                                     styles.tabText,
-                                    selectedTab === tab.key
+                                    isSelected
                                         ? styles.selectedTabText
                                         : styles.unselectedTabText
                                 ]}
                             >
-                                {tab.label}
+                                {label as string}
                             </Text>
                         </TouchableOpacity>
                     );
@@ -78,13 +86,12 @@ const styles = StyleSheet.create({
     },
     tabBar: {
         flexDirection: 'row',
-        height: 820,
+        height: 60,
         backgroundColor: '#fff',
         borderTopWidth: 1,
         borderColor: '#f0f0f0',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         justifyContent: 'space-around',
-        paddingBottom: Platform.OS === 'ios' ? 15 : 5, // 适配 iPhone 底部
     },
     tabItem: {
         flex: 1,
@@ -105,7 +112,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        top: 10, // 凸出底部
+        top: 10,
+        paddingVertical: 5,
     },
     publishButton: {
         width: 52,

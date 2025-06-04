@@ -4,7 +4,6 @@ import { StyleSheet, View } from 'react-native';
 export default function HomePage() {
     return (
         <View style={styles.container}>
-            <BottomTabBar />
         </View>
     );
 
