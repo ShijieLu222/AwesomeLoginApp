@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import TopBar from '../src/components/homeComponents/TopBar';
 
 export default function HomePage() {
+    const [selectedTab, setSelectedTab] = useState('发现');
+    const [posts, setPosts] = useState([]);
+
     return (
         <View style={styles.container}>
-            <TopBar />
+            <TopBar selectedTab={selectedTab} onTabPress={setSelectedTab}/>
         </View>
     );
 }

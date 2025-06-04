@@ -1,10 +1,19 @@
-import { useState } from "react";
+// app/src/components/homeComponents/TopBar.tsx
+import { useState } from "react"; // 这个 import 可以保留，但 useState 不再在组件内部用于selectedTab
 import { View, StyleSheet, TouchableOpacity, Text, Platform } from "react-native";
 
-export default function TobBar() {
-    const [selectedTab, setSelectedTab] = useState('发现'); // 默认选中"发现"
+// 定义 TopBar 组件的 props 类型
+interface TopBarProps {
+    selectedTab: string; // 当前选中的Tab名称
+    onTabPress: (tabName: string) => void; // Tab被按下时调用的函数
+}
+
+// 将 props 添加到函数参数中
+export default function TopBar({ selectedTab, onTabPress }: TopBarProps) {
+
+    // handleTbaBarPress 现在只是调用父组件传递进来的 onTabPress 函数
     const handleTbaBarPress = (tabName: string) => {
-        setSelectedTab(tabName);
+        onTabPress(tabName);
     }
 
     return (
@@ -13,6 +22,7 @@ export default function TobBar() {
                 {/* 关注选项 */}
                 <TouchableOpacity
                     style={styles.tabItem}
+                    // 调用 handleTbaBarPress，它会再调用父组件的 onTabPress
                     onPress={() => { handleTbaBarPress('关注') }}>
                     <Text style={[
                         styles.tabText,
@@ -59,6 +69,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 50, // 调整为合适的高度
         backgroundColor: '#fff',
+        borderBottomWidth: 0.5, // 细一点的边框
         borderBottomColor: '#f0f0f0',
         alignItems: 'center',
         justifyContent: 'space-between', // 改为 space-between
