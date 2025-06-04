@@ -8,7 +8,7 @@ import DiscoverPage from './app/pages/discoverPage'; // 导入 DiscoverPage
 import PublishPage from './app/pages/publishPage'; // 导入 PublishPage
 import MessagePage from './app/pages/messagePage'; // 导入 MessagePage
 import MyPage from './app/pages/myPage';           // 导入 MyPage
-import BottomTabBar from './app/src/components/homeComponents/BottomTabBar';
+import BottomTabBar from './app/src/components/BottomTabBar';
 
 import { store } from './app/store';
 

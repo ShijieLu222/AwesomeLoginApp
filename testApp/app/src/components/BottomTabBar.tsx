@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Platform } from 'react-native';
 import { useNavigation, CommonActions, useRoute } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { MainTabsParamList, RootStackParamList } from '../../../../App'; // 导入路由参数类型
+import { MainTabsParamList, RootStackParamList } from '../../../App'; // 导入路由参数类型
 import { AntDesign } from '@expo/vector-icons'; // 用于图标
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'; // 导入 TabBar props 类型
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native'; // 一个辅助函数，虽然在这个版本代码里没用到
